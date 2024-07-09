@@ -1,0 +1,37 @@
+h1 {
+  text-align: center;
+  margin: 0;
+  padding: 10px 0;
+  font-size: 50px;
+}
+
+.nav-bar {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 10px 0;
+  border: 3px solid #088F8F;
+  border-style: solid none;
+  margin-bottom: 20px;
+
+  a {
+    box-sizing: border-box;
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+    vertical-align: baseline;
+
+    &:hover {
+      font-weight: 600;
+    }
+  }
+}
+
+.active {
+  font-weight: 700;
+}
+
+.inactive {
+  font-weight: 400;
+}

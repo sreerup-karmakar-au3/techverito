@@ -1,0 +1,32 @@
+.remove-btn, .quantity-control {
+  margin: 0;
+  width: 50%;
+}
+
+.quantity-control {
+  text-align: center;
+
+  button {
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+    color: #088F8F;
+    border: 1px solid #088F8F;
+  }
+
+  span {
+    margin: 0 15px;
+  }
+}
+
+.remove-btn {
+  button {
+    width: 100%;
+    cursor: pointer;
+    color: #088F8F;
+    border: 1px solid #088F8F;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+}
