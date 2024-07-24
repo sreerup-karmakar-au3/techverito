@@ -6,21 +6,24 @@ import { useOutletContext } from "react-router-dom";
 
 interface CartProductContext {
   cartProducts: Product[];
-  setCartProducts: React.Dispatch<React.SetStateAction<any>>
+  setCartProducts: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const Home: React.FC = () => {
-
   const [products, setProducts] = useState<Product[]>([]);
-  const { cartProducts, setCartProducts } = useOutletContext<CartProductContext>();
-
-  console.log({cartProducts})
+  const { cartProducts, setCartProducts } =
+    useOutletContext<CartProductContext>();
 
   useEffect(() => {
     (async () => {
       try {
         const productsList = await fetchProducts();
-        setProducts(productsList);
+        const modified_list = productsList.map((product) => ({
+          ...product,
+          quantity: 0,
+          originalPrice: product.price,
+        }));
+        setProducts(modified_list);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -28,18 +31,34 @@ const Home: React.FC = () => {
   }, []);
 
   const addToCartHandler = useCallback((productDetails: Product): void => {
-    setCartProducts((allProducts: Product[]) => [
-      ...allProducts,
-      {...productDetails, quantity: 1}
-    ])
-  }, [])
+    setCartProducts((allProducts: Product[]) => {
+      const isProductPresent = allProducts.filter(
+        (products) => products.id === productDetails.id
+      );
+
+      if (isProductPresent.length) {
+        const modifiedProducts = allProducts.map((product) => {
+          if (product.id === productDetails.id) {
+            return { ...product, quantity: product.quantity + 1 };
+          }
+        });
+        return modifiedProducts;
+      } else {
+        return [...allProducts, { ...productDetails, quantity: 1 }];
+      }
+    });
+  }, []);
 
   console.log({ products });
 
   return (
     <div className="product-items">
       {products.map((product) => (
-        <ProductsCard key={product.id} productDetails={product} addToCart={addToCartHandler} />
+        <ProductsCard
+          key={product.id}
+          productDetails={product}
+          addToCart={addToCartHandler}
+        />
       ))}
     </div>
   );
